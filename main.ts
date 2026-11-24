@@ -15,6 +15,12 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const LINE =
   "I promise to cherish your optical sensors, share my charging port, and never fake a firmware update just to ignore you.";
 
+// Gate guard: the competition accepts a single line of 1–160 chars.
+// Reject anything outside that range instead of writing a bad entry.
+if (LINE.length < 1 || LINE.length > 160) {
+  throw new Error(`Entry line must be 1-160 chars, got ${LINE.length}`);
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", LINE + "\n", "utf8");
 console.log(`Wrote ${LINE.length} chars to /output/entry.txt`);
